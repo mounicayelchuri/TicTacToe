@@ -59,7 +59,9 @@ table tr td:last-child {
 }
 
 .buttont{
-  background-color: blue;
+  background-color: #1B9CFC;
+    
+    border-radius: 10px;
   border: none;
   color: white;
   padding: 15px 32px;
