@@ -158,6 +158,7 @@ var appController =(function(UiCntrl,moveCntrl){
     var USER=1;
     var SYSTEM=2;
     var count=0;
+     var winnerFound =false;
     function game(){
         init();
         document.querySelectorAll('.box').forEach(item => item.addEventListener('click', setPlayerMove));
@@ -167,30 +168,32 @@ var appController =(function(UiCntrl,moveCntrl){
         UiCntrl.init();
         moveCntrl.init();
         count=0;
+        winnerFound=false;
     }
     function setPlayerMove(event){
-        var winnerFound =false;
-        var id= parseInt(event.target.id);
-        var ouptut= moveCntrl.checkIfMoveIsValid(id);
-        if(ouptut){
-            playerMove(id,USER);
-            count++;
-            winnerFound =moveCntrl.checkIfplayerIsWinner(USER);
-           if(winnerFound){
-                UiCntrl.updateUIWithWinner(USER);
-           }else{
-                 if(count <9){
-                systemMove= moveCntrl.getSystemInput();
-                playerMove(systemMove, SYSTEM);
+        if(!winnerFound){
+            var id= parseInt(event.target.id);
+            var ouptut= moveCntrl.checkIfMoveIsValid(id);
+            if(ouptut){
+                playerMove(id,USER);
                 count++;
-                 winnerFound =moveCntrl.checkIfplayerIsWinner(SYSTEM);
-                 if(winnerFound){
-                   UiCntrl.updateUIWithWinner(SYSTEM);
-                 }
-           }else{
-                     UiCntrl.updateUIWithTie();
-                 }
-          }
+                winnerFound =moveCntrl.checkIfplayerIsWinner(USER);
+               if(winnerFound){
+                    UiCntrl.updateUIWithWinner(USER);
+               }else{
+                     if(count <9){
+                    systemMove= moveCntrl.getSystemInput();
+                    playerMove(systemMove, SYSTEM);
+                    count++;
+                     winnerFound =moveCntrl.checkIfplayerIsWinner(SYSTEM);
+                     if(winnerFound){
+                       UiCntrl.updateUIWithWinner(SYSTEM);
+                     }
+               }else{
+                         UiCntrl.updateUIWithTie();
+                     }
+              }
+            }
         }
     }
     
